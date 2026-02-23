@@ -1,26 +1,11 @@
 /*
- * Use Case 2: User Guess Submission
- *
- * This class is responsible for comparing
- * the user's guess with the target number.
- *
- * It does NOT handle input or output.
- */
-
-/*
- * MAIN CLASS
- *
- * Coordinates the game flow:
- * 1. Initialize game
- * 2. Accept user guesses
- * 3. Validate guesses
- * 4. Stop when game ends
+ * Use Case 3: Hint Generation
  *
  * @author Developer
- * @version 2.0
+ * @version 3.0
  */
 import java.util.*;
-public class GuessingApp2 {
+public class GuessingApp {
 
     public static void main(String[] args) {
 
@@ -31,6 +16,7 @@ public class GuessingApp2 {
 
         Scanner scanner = new Scanner(System.in);
         int attempts = 0;
+        int hintsUsed = 0;
 
         /*
          * Game loop runs until the player
@@ -44,9 +30,10 @@ public class GuessingApp2 {
             int guess = scanner.nextInt();
             attempts++;
 
-            String result = GuessValidator.validateGuess(
-                guess, config.getTargetNumber());
-
+            String result = GuessValidator.validateGuess(guess, config.getTargetNumber());
+            String hint = HintService.generateHint(game.getTargetNumber(), attempts);
+			System.out.println(hint);
+            
             System.out.println(result);
 
             /*
@@ -57,22 +44,5 @@ public class GuessingApp2 {
                 break;
             }
         }
-    }
-}
-
-class GuessValidator {
-
-    /*
-     * Compares guess with target and
-     * returns the comparison result.
-     */
-    public static String validateGuess(int guess, int target) {
-
-        if (guess == target) {
-            return "CORRECT";
-        } else if (guess < target) {
-            return "LOW";
-        }
-        return "HIGH";
     }
 }

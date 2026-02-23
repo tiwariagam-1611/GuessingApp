@@ -15,7 +15,7 @@
  * @author Developer
  * @version 4.0
  */
-public class GuessingApp4 {
+public class GuessingApp {
 
     public static void main(String[] args) throws InvalidInputException {
         while (attempts < config.getMaxAttempts()) {

@@ -1,36 +1,39 @@
 /**
  * MAIN CLASS
  *
- * Use Case 5: Game Result Storage
+ * Use Case 6: Game Restart & Exit
  *
- * This class coordinates the complete game flow
- * and persists the final result after completion.
+ * This class coordinates the complete game lifecycle,
+ * allowing the player to replay or exit gracefully.
  *
  * Responsibilities:
- * - Initialize game configuration
- * - Accept and validate user guesses
- * - Generate hints when applicable
- * - Store game result at the end
+ * - Start a new game session
+ * - Execute the guessing flow
+ * - Persist game results
+ * - Restart or exit based on user choice
  *
  * @author Developer
- * @version 5.0
+ * @version 6.0
  */
 import java.util.*;
-import java.io.*;
 public class GuessingApp {
 
-    public static void main(String[] args) throws InvalidInputException{
-
+    public static void main(String[] args) throws InvalidInputException {
         Scanner scanner = new Scanner(System.in);
+        boolean restart;
 
-        System.out.println("==========================");
+        System.out.println("===============================");
         System.out.println("Welcome to the Guessing App");
-        System.out.println("==========================\n");
+        System.out.println("===============================\n");
+
 
         /*
-        * Player name is captured once
-        * and stored along with game results.
+        * Outer loop controls whether
+        * a new game session should start.
         */
+        do {
+
+        /*....*/
         System.out.print("Enter Player Name: ");
         String player = scanner.nextLine();
 
@@ -46,9 +49,10 @@ public class GuessingApp {
         */
         boolean win = false;
 
+
         /*
-        * Game loop runs until the player
-        * exhausts the maximum attempts.
+        * Inner loop handles the guessing
+        * logic for a single game session.
         */
         while (attempts < config.getMaxAttempts()) {
 
@@ -89,9 +93,16 @@ public class GuessingApp {
 
         /*
         * Final game result is persisted
-        * after the game loop completes.
+        * after the current session ends.
         */
         StorageService.saveResult(player, attempts, win);
-    }
 
+        /*
+        * Player decides whether to
+        * restart the game or exit.
+        */
+        restart = GameController.restartGame(scanner);
+
+        } while (restart);
+    }
 }
